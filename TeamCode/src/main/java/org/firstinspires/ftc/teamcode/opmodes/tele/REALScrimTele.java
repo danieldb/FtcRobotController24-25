@@ -40,7 +40,7 @@ public class REALScrimTele extends OpMode {
     long transferTimer = 0;
     boolean transferPulse = false;
     private Servo light;
-    public static int lightTresh = 50;
+    public static int lightTresh = 150;
 
     private int zone1 = 2500;
     private int zone2 = 3000;
@@ -167,9 +167,13 @@ public class REALScrimTele extends OpMode {
         tele.addData("CurrRPM1", currentRPM1);
         tele.addData("CurrRPM2", currentRPM1);
 
-        if (Math.abs(RPM-((currentRPM1+currentRPM2)/2)) < lightTresh) {
+
+        if (Math.abs(RPM-((currentRPM1+currentRPM2)/2)) < lightTresh && RPM > 1) {
             light.setPosition(.5);
-        } else if (targetAngle % 120 == 0) light.setPosition(1);
+        } else {
+            if (targetAngle % 120 == 0) light.setPosition(1);
+            else light.setPosition(0);
+        }
 
         /*if (gamepad1.left_bumper) {
             if (!wasButtonPressed) {
